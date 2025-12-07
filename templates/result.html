@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="row g-0">
+                    <div class="col-md-6 bg-light d-flex align-items-center justify-content-center p-3">
+                        <img src="/{{ filename }}" class="img-fluid rounded shadow-sm" style="max-height: 300px;">
+                    </div>
+                    
+                    <div class="col-md-6 p-4 d-flex flex-column justify-content-center">
+                        <h4 class="text-muted">Analiz Sonucu</h4>
+                        <hr>
+                        
+                        {% if "Kanserli" in result %}
+                            <div class="alert alert-danger">
+                                <h2 class="alert-heading"><i class="fas fa-exclamation-triangle"></i> TESPİT EDİLDİ</h2>
+                                <p class="mb-0">{{ result }}</p>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-success">
+                                <h2 class="alert-heading"><i class="fas fa-check-circle"></i> TEMİZ</h2>
+                                <p class="mb-0">{{ result }}</p>
+                            </div>
+                        {% endif %}
+
+                        <div class="mt-3">
+                            <label>Güven Skoru:</label>
+                            <div class="progress" style="height: 25px;">
+                                <div class="progress-bar {% if 'Kanserli' in result %}bg-danger{% else %}bg-success{% endif %}" 
+                                     role="progressbar" 
+                                     style="width: {{ confidence }}%;" 
+                                     aria-valuenow="{{ confidence }}" aria-valuemin="0" aria-valuemax="100">
+                                    %{{ confidence }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <a href="/" class="btn btn-outline-primary w-100">Yeni Analiz Yap</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
