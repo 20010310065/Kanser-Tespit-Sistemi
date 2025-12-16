@@ -1,6 +1,7 @@
 import os
 import io
 import datetime
+import uuid
 import numpy as np
 import tensorflow as tf
 from PIL import Image
@@ -75,7 +76,14 @@ async def predict_image(request: Request, file: UploadFile = File(...)):
         return {"error": "Model yüklenemedi"}
 
     contents = await file.read()
-    file_location = f"{UPLOAD_DIR}/{file.filename}"
+    # Dosya uzantısını al (örn: .jpg, .png)
+    file_extension = os.path.splitext(file.filename)[1]
+    
+    # Benzersiz bir isim oluştur (örn: a1b2c3d4-....jpg)
+    unique_filename = f"{uuid.uuid4()}{file_extension}"
+    
+    # Yeni dosya yolu
+    file_location = f"{UPLOAD_DIR}/{unique_filename}"
     with open(file_location, "wb") as f:
         f.write(contents)
 
